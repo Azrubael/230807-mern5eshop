@@ -2,20 +2,19 @@ import express from "express"
 import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv"
-
 import amqp from "amqplib"
 
 import Product from "./models/products.js"
 import Order from "./models/orders.js"
 
-const app = express();
+const app = express()
 dotenv.config()
 
-app.use(express.json());
-app.use(cors());
+app.use(express.json())
+app.use(cors())
 
 app.get("/products", async (req, res) => {
-  const products = await Product.find();
+  const products = await Product.find()
   return res.status(200).json({
     products,
   })
@@ -46,7 +45,7 @@ app.put("/orders/:id", async (req, res) => {
   if (status === "DELIVERED") {
     try {
       const connection = await amqp.connect(
-        `amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`
+        `amqp://${ process.env.RABBITMQ_HOST }:${ process.env.RABBITMQ_PORT }`
       )
       console.log({ connection })
       const channel = await connection.createChannel()
@@ -78,7 +77,7 @@ app.post("/orders", async (req, res) => {
 })
 
 app.get("/orders", async (req, res) => {
-  const orders = await Order.find();
+  const orders = await Order.find()
   return res.status(200).json({
     orders,
   })
@@ -88,10 +87,10 @@ mongoose.set('strictQuery', false)
 
 // const mongo_URI = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${process.env.MONGODB_HOST}/products` 
 
-// [3] - a local network approach (with a container name)
-const mongo_URI = 'mongodb://mongodb:27017/products'
 
+const mongo_URI = 'mongodb://mongodb:27017/products'
 /*
+[3] - a local network approach (with a container name)
 [2] - tested link, a little better approach
 const mongo_URI = 'mongodb://172.17.0.2:27017/products'
 [1] - tested link
@@ -99,24 +98,24 @@ const mongo_URI = 'mongodb://host.docker.internal:27017/products'
 */
 
 const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 }
 
 async function MongoDBService() {
   try {
-    await mongoose.connect( mongo_URI, options )
-      .then( () => {
+    await mongoose.connect(mongo_URI, options)
+      .then(() => {
         console.log("Connected to MongoDB")
         app.listen(process.env.MONGODB_PORT, () => {
-            console.log("Now listening on PORT " + process.env.MONGODB_PORT)
+          console.log("Now listening on PORT " + process.env.MONGODB_PORT)
         })
       })
   } catch (error) {
-      console.log("Unable to connect to MongoDB")
-      console.log(error)
+    console.log("Unable to connect to MongoDB")
+    console.log(error)
   }
-  mongoose.connection.on( "error", (err) => console.log(err) )
+  mongoose.connection.on("error", (err) => console.log(err))
 }
 
 MongoDBService()

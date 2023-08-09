@@ -17,7 +17,8 @@ const customStyles = {
 }
 
 export default function Checkout({ order }) {
-  let subtitle;
+  let subtitle
+  const backendURL = "http://localhost:5002"
   const [phone, setPhone] = React.useState("")
   const [address, setAddress] = React.useState("")
   const [modalIsOpen, setIsOpen] = React.useState(false)
@@ -37,7 +38,7 @@ export default function Checkout({ order }) {
   const placeOrder = async () => {
     if (address && phone && order.length) {
       try {
-        const order = await axios.post("/api/orders", {
+        const order = await axios.post(backendURL + "/api/orders", {
           order,
           phone,
           address,
