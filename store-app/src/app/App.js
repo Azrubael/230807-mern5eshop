@@ -11,7 +11,8 @@ import Checkout from "./Checkout"
 
 
 function App() {
-  const backendURL = "http://localhost:5002"
+  const backendURL = "http://nodedb2-container:5002"
+  // const backendURL = ""
   const [products, setProducts] = useState([
     {
       name: "Chocolate Fudge",
