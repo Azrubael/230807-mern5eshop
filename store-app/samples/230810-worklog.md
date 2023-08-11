@@ -13,7 +13,7 @@ Deleted: sha256:660187f862fda66bac379b8ccc029d402eb0902ea07da6150d3cb3c3d00d2b16
     $ docker build -t azrubael/mern5shop:nginx .
     $ docker network create e5shop
     $ docker network ls
-    $ docker run --rm --network e5shop --name nextjs-container azrubael/mern5shop:next1
+    $ docker run --rm --network e5shop --name nextjs-container -p 3000:3000 azrubael/mern5shop:next1
     $ docker run --rm --network e5shop --name nginx-container --link nextjs-container:nextjs --publish 80:80 azrubael/mern5shop:nginx
     $ docker ps -as
 CONTAINER ID   IMAGE                                 COMMAND                  CREATED          STATUS                    PORTS                NAMES              SIZE

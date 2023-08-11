@@ -1,0 +1,2 @@
+docker run --name mongodb --network e5shop -p 27017:27017 -d -v data:/data/db mongo
+docker run --rm --network e5shop --name nodedb2-container -p 5002:5002 azrubael/mern5shop:nodedb2

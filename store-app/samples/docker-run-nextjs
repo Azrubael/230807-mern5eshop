@@ -1,0 +1,2 @@
+docker run --rm --network e5shop --name nextjs-container -it -p 3000:3000 azrubael/mern5shop:nextjs
+docker run --rm --network e5shop --name nginx-container --link nextjs-container:nextjs -p 80:80 azrubael/mern5shop:nginx
