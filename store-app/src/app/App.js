@@ -11,19 +11,17 @@ import Checkout from "./Checkout"
 
 
 function App() {
-  const backendURL = "http://nodedb2-container:5002"
-  // const backendURL = ""
   const [products, setProducts] = useState([
     {
       name: "Chocolate Fudge",
       image:
-        "https://www.rebootwithjoe.com/wp-content/uploads/2013/06/Almond-Butter-Chocolate-Fudge.jpg",
+      "https://www.rebootwithjoe.com/wp-content/uploads/2013/06/Almond-Butter-Chocolate-Fudge.jpg",
       description: "Gooey and creamy chocolate",
       price: 14.33,
     },
   ])
   const [order, setOrder] = useState([])
-
+  
   const addToOrder = (product) => {
     const updatedOrder = [...order]
     const index = updatedOrder.findIndex((item) => item.product === product)
@@ -34,6 +32,8 @@ function App() {
 
   const fetchProducts = async () => {
     try {
+      const backendURL = "http://localhost:5002"
+      // const backendURL = ""
       const p = await axios.get(backendURL + "/api/products")
       setProducts(p.data.products)
     } catch (error) { }

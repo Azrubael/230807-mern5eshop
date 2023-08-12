@@ -18,7 +18,7 @@ const customStyles = {
 
 export default function Checkout({ order }) {
   let subtitle
-  const backendURL = "http://nodedb2-container:5002"
+  const backendURL = "http://localhost:5002"
   // const backendURL = ""
   const [phone, setPhone] = React.useState("")
   const [address, setAddress] = React.useState("")
