@@ -3,7 +3,7 @@ This is my treining project of the online store with a few of microservices:
 - backend - Node.js;
 - MongoDB;
 - rabbitmw;
-- notificztions - Node.js.
+- notifications - Node.js.
 
 
 [1] - To start only frontend `store-app` in production mode:

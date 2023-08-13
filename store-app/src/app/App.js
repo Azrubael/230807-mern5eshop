@@ -1,5 +1,7 @@
 'use client'
-import axios from 'axios'
+
+import axios from 'axios'    /* https://axios-http.com/ru/docs/intro */
+
 import { useEffect, useState } from 'react'
 import { FiShoppingCart } from "react-icons/fi"
 import { ChakraProvider } from "@chakra-ui/react"
