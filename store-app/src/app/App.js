@@ -1,7 +1,6 @@
 'use client'
 
-import axios from 'axios'    /* https://axios-http.com/ru/docs/intro */
-
+// import axios from 'axios'    /* https://axios-http.com/ru/docs/intro */
 import { useEffect, useState } from 'react'
 import { FiShoppingCart } from "react-icons/fi"
 import { ChakraProvider } from "@chakra-ui/react"
@@ -13,13 +12,14 @@ import Checkout from "./Checkout"
 
 
 function App() {
+  
   const [products, setProducts] = useState([
     {
       name: "Chocolate Fudge",
       image:
       "https://www.rebootwithjoe.com/wp-content/uploads/2013/06/Almond-Butter-Chocolate-Fudge.jpg",
       description: "Gooey and creamy chocolate",
-      price: 14.33,
+      price: 14.33
     },
   ])
   const [order, setOrder] = useState([])
@@ -31,14 +31,24 @@ function App() {
     else updatedOrder[index].quantity = updatedOrder[index].quantity + 1
     setOrder(updatedOrder)
   }
+  
+  const backendURL = "http://localhost:5002"
+  // const backendURL = ""
 
   const fetchProducts = async () => {
-    try {
-      const backendURL = "http://localhost:5002"
-      // const backendURL = ""
-      const p = await axios.get(backendURL + "/api/products")
-      setProducts(p.data.products)
-    } catch (error) { }
+    await fetch(backendURL + "/products", {
+        headers: {
+          'Accept': 'application/json',
+        }
+      })
+      .then( res => {
+        setProducts(res.data.products)
+        console.log("GET list of products")
+      })
+      .catch( error => {
+        console.log("Data GET error:")
+        console.log(error)
+      } )
   }
 
   useEffect(() => {

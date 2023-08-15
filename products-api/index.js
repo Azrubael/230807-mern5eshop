@@ -85,12 +85,13 @@ app.get("/orders", async (req, res) => {
 
 mongoose.set('strictQuery', false)
 
+// [5] - an ingress apptoach
 // const mongo_URI = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${process.env.MONGODB_HOST}/products` 
-
-
-const mongo_URI = 'mongodb://mongodb:27017/products'
+// [4] - a dev mode apptoach
+const mongo_URI = 'mongodb://localhost:27017/products?authSource=admin'
 /*
 [3] - a local network approach (with a container name)
+const mongo_URI = 'mongodb://mongodb:27017/products'
 [2] - tested link, a little better approach
 const mongo_URI = 'mongodb://172.17.0.2:27017/products'
 [1] - tested link
@@ -102,20 +103,38 @@ const options = {
   useUnifiedTopology: true,
 }
 
-async function MongoDBService() {
-  try {
-    await mongoose.connect(mongo_URI, options)
-      .then(() => {
-        console.log("Connected to MongoDB")
-        app.listen(process.env.MONGODB_PORT, () => {
-          console.log("Now listening on PORT " + process.env.MONGODB_PORT)
-        })
-      })
-  } catch (error) {
+mongoose.connect(mongo_URI, options)
+  .then( () => {
+    console.log("Connected to MongoDB")
+    app.listen(process.env.MONGODB_PORT, () => {
+      console.log("Now listening on PORT " + process.env.MONGODB_PORT)
+    })
+  })
+  .catch( error => {
     console.log("Unable to connect to MongoDB")
     console.log(error)
-  }
-  mongoose.connection.on("error", (err) => console.log(err))
-}
+  })
 
-MongoDBService()
+ mongoose.connection.on("error", (err) => console.log(err))
+
+// {
+//   "product": {
+//       "image": "https://www.rebootwithjoe.com/wp-content/uploads/2013/06/Almond-Butter-Chocolate-Fudge.jpg",
+//       "price": 14.33,
+//       "description": "Gooey and creamy chocolate",
+//       "_id": "62c5fee277de00fe92c75f27",
+//       "__v": 0
+//   }
+// }
+// {
+//     "name": "Red Velvet",
+//     "image": "https://media.istockphoto.com/photos/red-velvet-cake-picture-id485832764?k=20&m=485832764&s=612x612&w=0&h=58yxSE0lOx3aD7OZJ3wodakdAbEB-aH6MWNj3QGutwg=",
+//     "description": "Moist with cream cheese icing",
+//     "price": 34.33
+// },
+// {
+//     "name": "Raspberry Cheesecake",
+//     "image": "https://www.elmundoeats.com/wp-content/uploads/2020/06/FP-No-Bake-Raspberry-Cheesecake.jpg",
+//     "description": "New York style cheesecake",
+//     "price": 64.33
+// }

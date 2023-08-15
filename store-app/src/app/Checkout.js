@@ -3,7 +3,6 @@ import { ListItem, UnorderedList, Input } from "@chakra-ui/react"
 import React from "react"
 import { FiShoppingBag } from "react-icons/fi"
 import Modal from "react-modal"
-import axios from "axios"
 
 const customStyles = {
   content: {
@@ -17,9 +16,11 @@ const customStyles = {
 }
 
 export default function Checkout({ order }) {
-  let subtitle
-  const backendURL = "http://localhost:5002"
-  // const backendURL = ""
+  let subtitle = {
+    "style": {
+      "color": "#500",
+    },
+  }
   const [phone, setPhone] = React.useState("")
   const [address, setAddress] = React.useState("")
   const [modalIsOpen, setIsOpen] = React.useState(false)
@@ -36,16 +37,31 @@ export default function Checkout({ order }) {
     setIsOpen(false);
   }
 
+  const backendURL = "http://localhost:5002"
+  // const backendURL = ""
+
   const placeOrder = async () => {
     if (address && phone && order.length) {
-      try {
-        const order = await axios.post(backendURL + "/api/orders", {
-          order,
-          phone,
-          address,
+      await fetch(backendURL + "/orders", {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "order": order,
+          "phone": phone,
+          "address": address
         })
-        setIsOpen(false);
-      } catch (error) {}
+      })
+      .then( res => {
+        console.log("POST an order")
+        setIsOpen(false)
+      })
+      .catch( error => {
+        console.log("Data POST error:")
+        console.log(error)
+      })
     }
   }
 
