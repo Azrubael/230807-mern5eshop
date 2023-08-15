@@ -85,15 +85,18 @@ app.get("/orders", async (req, res) => {
 
 mongoose.set('strictQuery', false)
 
-// const mongo_URI = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${process.env.MONGODB_HOST}/products` 
-
-
-const mongo_URI = 'mongodb://mongodb:27017/products'
 /*
-[3] - a local network approach (with a container name)
-[2] - tested link, a little better approach
+  [5] - k8s-4dev in pods approach
+const mongo_URI = 'mongodb://mongodb-cluster-ip-service/products'
+  [4] - a cloud prod approach
+const mongo_URI = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@${process.env.MONGODB_HOST}/products` 
+  [3] - a local network approach (with a container name)  */
+const mongo_URI = 'mongodb://mongodb:27017/products'
+
+/*
+  [2] - tested link, a little better approach for `npm run start`
 const mongo_URI = 'mongodb://172.17.0.2:27017/products'
-[1] - tested link
+  [1] - tested link for `npm run start`
 const mongo_URI = 'mongodb://host.docker.internal:27017/products'
 */
 

@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: store
-      image: azrubael/mern5shop:nextjs
+      image: azrubael/mern5shop:reactnginx7
       ports:
-        - containerPort: 3000
+        - containerPort: 80
