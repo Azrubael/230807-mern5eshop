@@ -11,19 +11,23 @@ import email.message
 from smtplib import SMTP_SSL
 from smtplib import SMTPAuthenticationError
 import ssl
-from decouple import config
+import sys
+from os import environ as env
 
-
-SENDER = config("SDR")
-RECEIVER = config("RVR")
-EMAIL_SERVER = config("SRV")
-EMAIL_PORT = config("PORT")
-NAME = config("NAME")
-KWD = config("KWD")
-QUEUE_HOST = config("QHOST")
-QUEUE_PORT = config("QPORT")
-QUEUE_USER = config("QUSR")
-QUEUE_PASS = config("QPWD")
+try:
+    SENDER = env["SDR"]
+    RECEIVER = env["RVR"]
+    EMAIL_SERVER = env["SRV"]
+    EMAIL_PORT = env["PORT"]
+    NAME = env["NAME"]
+    KWD = env["KWD"]
+    QUEUE_HOST = env["QHOST"]
+    QUEUE_PORT = env["QPORT"]
+    QUEUE_USER = env["QUSR"]
+    QUEUE_PASS = env["QPWD"]
+except KeyError:
+    print('[error]: `API_KEY` environment variable required')
+    sys.exit(1)
 
 
 def generate(subject, body):
@@ -46,6 +50,7 @@ def send_email(msg):
         mail_server.login(SENDER, KWD)
     except SMTPAuthenticationError:
         print("Fail to ligin SMTP server")
+        sys.exit(1)
 
     mail_server.send_message(msg)
     print("A message sent to ", RECEIVER)
@@ -69,6 +74,7 @@ def main():
         channel = connection.channel()
     except:
         print(f"Queue connection error.")
+        sys.exit(1)
     else:    
         channel.queue_declare(queue="jobs", durable=True)
         channel.basic_consume(queue="jobs", on_message_callback=callback, auto_ack=True)

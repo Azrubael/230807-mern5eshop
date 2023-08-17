@@ -14,7 +14,51 @@ spec:
     spec:
       containers:
         - name: reports-api
-          # image: laithharb/notifications-api
-          image: azrubael/mern5shop:pymq_env
+          # image: laithharb/notifications-api:v2
+          image: azrubael/mern5shop:pymq7env
           ports:
             - containerPort: 465
+          env:
+            - name: SDR
+              valueFrom:
+                secretKeyRef:
+                  name: reports-secret
+                  key: SDR
+            - name: RVR
+              valueFrom:
+                secretKeyRef:
+                  name: reports-secret
+                  key: RVR
+            - name: SRV
+              valueFrom:
+                secretKeyRef:
+                  name: reports-secret
+                  key: SRV
+            - name: PORT
+              valueFrom:
+                secretKeyRef:
+                  name: reports-secret
+                  key: PORT
+            - name: NAME
+              valueFrom:
+                secretKeyRef:
+                  name: reports-secret
+                  key: NAME
+            - name: KWD
+              valueFrom:
+                secretKeyRef:
+                  name: reports-secret
+                  key: KWD
+            - name: QUSR
+              valueFrom:
+                secretKeyRef:
+                  name: reports-secret
+                  key: QUSR
+            - name: QPWD
+              valueFrom:
+                secretKeyRef:
+                  name: reports-secret
+                  key: QPWD
+          envFrom:
+            - configMapRef:
+                name: rabbitmq-configmap
