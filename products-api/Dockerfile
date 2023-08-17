@@ -1,13 +1,12 @@
-FROM node:18-alpine
+FROM ubuntu:18.04
 
 WORKDIR /app
 
-COPY package.json .
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip install flask==2.1.*
 
-RUN npm install
+COPY *.py .
 
-COPY . .
-
+ENV FLASK_APP=runme
 EXPOSE 5002
-
-CMD ["npm", "run", "start"]
+CMD flask run --host 0.0.0.0 --port 5002

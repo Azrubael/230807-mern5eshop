@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reports-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      component: reports-api
+  template:
+    metadata:
+      labels:
+        component: reports-api
+    spec:
+      containers:
+        - name: reports-api
+          # image: laithharb/notifications-api
+          image: azrubael/mern5shop:pymq_env
+          ports:
+            - containerPort: 465
