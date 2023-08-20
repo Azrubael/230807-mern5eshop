@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: products-api
-          # image: laithharb/products-api
-          image: azrubael/mern5shop:nodedb7env
+          image: laithharb/products-api
+          # image: azrubael/mern5shop:nodedb7env
           ports:
             - containerPort: 5002
           env:

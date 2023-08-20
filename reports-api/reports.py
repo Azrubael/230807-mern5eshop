@@ -11,8 +11,8 @@ import email.message
 from smtplib import SMTP_SSL
 from smtplib import SMTPAuthenticationError
 import ssl
-import sys
 from os import environ as env
+import sys
 
 try:
     SENDER = env["SDR"]
@@ -61,7 +61,7 @@ def main():
     """Handling of a connection with rabbitmq."""
     # credentials = pika.PlainCredentials("guest", "guest")
     def callback(ch, method, properties, body):
-        print(f" [x] Received a new order:\n{body}")
+        print(f" [x] Received a new order:\n{ body }")
         try:
             msg_email = generate("A new order informaion.", body)
             send_email(msg_email)
@@ -72,6 +72,7 @@ def main():
         credentials = pika.PlainCredentials(QUEUE_USER, QUEUE_PASS)
         connection = pika.BlockingConnection(pika.ConnectionParameters(host=QUEUE_HOST, port=QUEUE_PORT, credentials=credentials))
         channel = connection.channel()
+        print("Hockey")
     except:
         print(f"Queue connection error.")
         sys.exit(1)

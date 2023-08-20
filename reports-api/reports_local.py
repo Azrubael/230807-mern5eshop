@@ -5,12 +5,13 @@ https://pika.readthedocs.io/en/stable/examples/connecting_async.html
 https://www.rabbitmq.com/tutorials/tutorial-one-python.html
 https://github.com/rabbitmq/rabbitmq-tutorials/tree/main/python
 """
-
-import pika
 import email.message
+import pika
+import os
+import ssl
+import sys
 from smtplib import SMTP_SSL
 from smtplib import SMTPAuthenticationError
-import ssl
 from decouple import config
 
 
@@ -55,7 +56,7 @@ def send_email(msg):
 def main():
     """Handling of a connection with rabbitmq."""
     def callback(ch, method, properties, body):
-        print(f" [x] Received a new order:\n{body}")
+        print(f" [x] Received a new order:\n{ body.decode() }")
         try:
             msg_email = generate("A new order informaion.", body)
             send_email(msg_email)
@@ -66,8 +67,10 @@ def main():
         credentials = pika.PlainCredentials(QUEUE_USER, QUEUE_PASS)
         connection = pika.BlockingConnection(pika.ConnectionParameters(host="localhost", port=QUEUE_PORT, credentials=credentials))
         channel = connection.channel()
+        print("Hockey")
     except:
         print(f"Queue connection error.")
+        sys.exit(1)
     else:    
         channel.queue_declare(queue="jobs", durable=True)
         channel.basic_consume(queue="jobs", on_message_callback=callback, auto_ack=True)
@@ -76,5 +79,12 @@ def main():
         channel.start_consuming()
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        print('Interrupted')
+        try:
+            sys.exit(0)
+        except SystemExit:
+            os._exit(0)

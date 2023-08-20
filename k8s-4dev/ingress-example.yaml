@@ -1,0 +1,212 @@
+`apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: develop
+  name: develop-unified-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+    nginx.ingress.kubernetes.io/request-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    er-snippets: |
+      location / {
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_http_version 1.1;
+        proxy_set_header X-Forwarded-Host $http_host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header Host $host;
+        proxy_set_header Connection "Upgrade";
+        proxy_cache_bypass $http_upgrade;
+        }
+spec:
+  rules:
+    - host: devgateway.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: adminer-dev
+                port:
+                  number: 8080
+            path: /adminer.php(/|$)(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: fms-fleet
+                port:
+                  number: 8010
+            path: /fms-fleet/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: fms-driver
+                port:
+                  number: 8011
+            path: /fms-driver/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: fms-maintenance
+                port:
+                  number: 8012
+            path: /fms-maintenance/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: user-ms
+                port:
+                  number: 8013
+            path: /user-ms/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: cob-packages
+                port:
+                  number: 8021
+            path: /cob-packages/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: cob-customer
+                port:
+                  number: 8022
+            path: /cob-customer/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: cob-inventory
+                port:
+                  number: 8023
+            path: /cob-inventory/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: cob-new-customer
+                port:
+                  number: 8024
+            path: /cob-new-customer/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: maptrail-generic
+                port:
+                  number: 8031
+            path: /maptrail-generic/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: map-trail
+                port:
+                  number: 8032
+            path: /map-trail/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: smpp-mail
+                port:
+                  number: 8033
+            path: /smpp-mail/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: jubaili-be
+                port:
+                  number: 8035
+            path: /jubaili-be/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: at-advance
+                port:
+                  number: 8036
+            path: /at-advance/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: loki
+                port:
+                  number: 3100
+            path: /loki/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: camera-service
+                port:
+                  number: 8037
+            path: /camera-service/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: report-analytics
+                port:
+                  number: 8038
+            path: /report-analytics/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: scheduler-ms
+                port:
+                  number: 8039
+            path: /scheduler-ms/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: platform-audit
+                port:
+                  number: 8040
+            path: /platform-audit/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: device-manager
+                port:
+                  number: 8041
+            path: /device-manager/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: platform-role-access
+                port:
+                  number: 8042
+            path: /platform-role-access/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: notification-alerts
+                port:
+                  number: 8043
+            path: /notification-alerts/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: smart-building
+                port:
+                  number: 8044
+            path: /smart-building/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: live-stream
+                port:
+                  number: 5000
+            path: /live-stream/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: live-stream
+                port:
+                  number: 4400
+            path: /ws-live-stream/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: sp-platform
+                port:
+                  number: 8087
+            path: /sp-platform/(.*)
+            pathType: Prefix`
