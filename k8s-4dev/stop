@@ -1,0 +1,12 @@
+kubectl delete -f ./k8s/store-deployment.yaml && \
+kubectl delete -f ./k8s/store-cluster-ip-service.yaml && \
+kubectl delete -f ./k8s/products-api-deployment.yaml && \
+kubectl delete -f ./k8s/products-api-cluster-ip-service.yaml && \
+kubectl delete -f ./k8s/rabbitmq-configmap.yaml && \
+kubectl delete -f ./k8s/mongodb-deployment.yaml && \
+kubectl delete -f ./k8s/mongodb-cluster-ip-service.yaml && \
+kubectl delete -f ./k8s/rabbitmq-deployment.yaml && \
+kubectl delete -f ./k8s/rabbitmq-cluster-ip-service.yaml && \
+kubectl delete -f ./k8s/reports-api-deployment.yaml && \
+kubectl delete -f ./k8s/ingress-service.yaml && \
+kubectl delete -f ./k8s/ingress-docker-desktop.yaml
